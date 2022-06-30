@@ -11,6 +11,7 @@
     <ItemGroup>
       <PackageReference Include="Catalyst.Spacy" Version="1.0.30301" />
       <PackageReference Include="FluentAssertions" Version="6.7.0" />
+      <PackageReference Include="linqtotwitter" Version="6.15.0" />
       <PackageReference Include="Microsoft.ML" Version="2.0.0-preview.22313.1" />
       <PackageReference Include="python" Version="3.10.5" />
       <PackageReference Include="Python.Included" Version="3.7.3.13" />
