@@ -19,7 +19,7 @@ public static class HttpGet
         //     $"https://api.twitter.com/2/users/by/username/:{twitterUsername}/tweets?max_results={numberOfTweets}&tweet_mode=extended&exclude=retweets,replies";
         
         
-        var url = $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets+2}&tweet_mode=extended&include_rts=0&&include_replies=0";
+        var url = $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets+2}&tweet_mode=extended&include_rts=0&&exclude_replies=1";
         var response = await client.GetAsync(url);
         var tweetJson = await response.Content.ReadAsStringAsync();
         var alltweets = JsonSerializer.Deserialize<Tweets[]>(tweetJson);
