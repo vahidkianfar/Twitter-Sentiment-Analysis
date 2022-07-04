@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitter-Sentiment-Analysis"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterTests", "TwitterTests\TwitterTests.csproj", "{7FC81D27-D878-448F-92A7-FFB7A76CE187}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitter-Sentiment-API", "Twitter-Sentiment-API\Twitter-Sentiment-API.csproj", "{F15116CC-A939-4D2F-9DCD-AC2F4BB74428}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{7FC81D27-D878-448F-92A7-FFB7A76CE187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FC81D27-D878-448F-92A7-FFB7A76CE187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FC81D27-D878-448F-92A7-FFB7A76CE187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15116CC-A939-4D2F-9DCD-AC2F4BB74428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15116CC-A939-4D2F-9DCD-AC2F4BB74428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15116CC-A939-4D2F-9DCD-AC2F4BB74428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15116CC-A939-4D2F-9DCD-AC2F4BB74428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

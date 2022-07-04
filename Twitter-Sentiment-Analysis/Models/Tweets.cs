@@ -9,5 +9,10 @@ public class Tweets
 
     [JsonPropertyName("screen_name")]
     public int Username { get; set; }
+    
+    [JsonPropertyName("location")]
+    
+    public string Location { get; set; }
+    
 
 }

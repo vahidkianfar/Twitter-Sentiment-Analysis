@@ -9,6 +9,7 @@ public static class HttpGet
     public static async Task<Tweets[]?> GetTweetsAsync(string twitterUsername, int numberOfTweets)
     {
         var client = new HttpClient();
+        
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", "AAAAAAAAAAAAAAAAAAAAAOYpeQEAAAAAO%2FdL%2FJqRP%2Fp7zCQUlfVuzhKpnLo%3DeDEH4jnzPO47pG4SuADalcP2QpU9wLRrytbywXHnLTWjlNuYYr");
 
