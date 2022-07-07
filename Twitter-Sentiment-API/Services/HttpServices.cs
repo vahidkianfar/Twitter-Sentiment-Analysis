@@ -86,7 +86,6 @@ public class HttpServices
         stopWordsList = StopWordsFilter();
         var newWords = words.Where(word => !stopWordsList.Contains(word));
         text = string.Join(" ", newWords).ToLower();
-        Console.WriteLine(text);
         var client = new HttpClient();
         client.BaseAddress = new Uri($"https://quickchart.io/wordcloud?text={text}");
         var response = await client.GetByteArrayAsync(client.BaseAddress);
