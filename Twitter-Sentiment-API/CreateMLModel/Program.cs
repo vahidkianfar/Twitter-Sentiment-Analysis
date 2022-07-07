@@ -7,18 +7,18 @@ namespace Twitter_Sentiment_API.CreateMLModel
 {
     class Program
     {
-        static readonly string _dataPath = Path.Combine(Environment.CurrentDirectory,"CreateMLModel", "Dataset_labelled.txt");
+        private static readonly string DataPath = Path.Combine(Environment.CurrentDirectory,"CreateMLModel", "Dataset_labelled.txt");
         public static string Start(string inputText)
         {
             var mlContext = new MLContext();
             var splitDataView = LoadData(mlContext);
             var model = BuildAndTrainModel(mlContext, splitDataView.TrainSet);
-            return UseModelWithSingleItem(mlContext, model,inputText) + Evaluate(mlContext, model, splitDataView.TestSet);
+            return ResultsFromModel(mlContext, model,inputText) + Evaluate(mlContext, model, splitDataView.TestSet);
         }
 
         private static TrainTestData LoadData(MLContext mlContext)
         {
-            var dataView = mlContext.Data.LoadFromTextFile<SentimentAnalysis>(_dataPath, hasHeader: false);
+            var dataView = mlContext.Data.LoadFromTextFile<SentimentAnalysis>(DataPath, hasHeader: false);
             var splitDataView = mlContext.Data.TrainTestSplit(dataView, testFraction: 0.2);
             return splitDataView;
         }
@@ -31,14 +31,14 @@ namespace Twitter_Sentiment_API.CreateMLModel
             return model;
         }
 
-        public static string Evaluate(MLContext mlContext, ITransformer model, IDataView splitTestSet)
+        private static string Evaluate(MLContext mlContext, ITransformer model, IDataView splitTestSet)
         {
             var predictions = model.Transform(splitTestSet);
             var metrics = mlContext.BinaryClassification.Evaluate(predictions, "Label");
             return $"\n\nModel Accuracy: {metrics.Accuracy:P2}";
         }
 
-        private static string UseModelWithSingleItem(MLContext mlContext, ITransformer model, string inputText)
+        private static string ResultsFromModel(MLContext mlContext, ITransformer model, string inputText)
         {
             PredictionEngine<SentimentAnalysis, SentimentPrediction> predictionFunction = mlContext.Model.CreatePredictionEngine<SentimentAnalysis, SentimentPrediction>(model);
             SentimentAnalysis sampleStatement = new SentimentAnalysis

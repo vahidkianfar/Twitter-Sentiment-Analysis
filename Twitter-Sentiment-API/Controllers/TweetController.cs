@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Twitter_Sentiment_API.Models;
 using Twitter_Sentiment_API.Services;
 
@@ -63,10 +64,11 @@ public class TweetController : Controller
     }
     
     [HttpGet("SentimentAnalysisWordCloud/{username}")]
-    public async Task<object> SentimentAnalysisWordCloud(string username, int count=10)
+    [Consumes("image/svg+xml" , "image/png","application/json")]
+    public Task<object> SentimentAnalysisWordCloud(string username, int count=10)
     {
-        var path=await _httpServices.SentimentAnalysisWordCloud(username, count);
-        return path;
+        return _httpServices.SentimentAnalysisWordCloud(username, count);
+       // return System.IO.File.Open($"{path}", FileMode.Open);
     }
     
     [HttpGet("OurCustomModel/{text}")]

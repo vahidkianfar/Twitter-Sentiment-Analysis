@@ -3,6 +3,7 @@ using System.Drawing.Imaging;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using DeepAI;
 using Twitter_Sentiment_API.Models;
 
@@ -76,33 +77,45 @@ public class HttpServices
         return CreateMLModel.Program.Start(inputText);
     }
     
-    public async Task<string> SentimentAnalysisWordCloud(string username, int count)
+    public async Task<object> SentimentAnalysisWordCloud(string username, int count)
     {
-        var result = await GetTweetsAsync(username, count);
+        var result =  GetTweets(username, count);
         FileServices.SaveOnFile(result, username);
-        var text = await File.ReadAllTextAsync(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt");
-        var words = text.Split();
+        var text =  File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt");
+        var words = text.ToLower().Split();
+        foreach (var word in words)
+        {
+            Console.WriteLine(word);
+        }
         List<string> stopWordsList = new List<string>();
         stopWordsList = StopWordsFilter();
         var newWords = words.Where(word => !stopWordsList.Contains(word));
         text = string.Join(" ", newWords).ToLower();
+        Console.WriteLine(text);
         var client = new HttpClient();
-        client.BaseAddress = new Uri($"https://quickchart.io/wordcloud?text={text}");
-        var response = await client.GetByteArrayAsync(client.BaseAddress);
+        client.BaseAddress = new Uri($"https://quickchart.io/wordcloud?maxNumWords=50&&text={text}");
+        var response =  await client.GetByteArrayAsync(client.BaseAddress);
         var file = new FileStream(@$"{Environment.CurrentDirectory}/Datasets/{username}.svg", FileMode.Create);
         file.Write(response, 0, response.Length);
         file.Close();
         return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
+
+        //  var httpClient = new HttpClient();
+        //  var request = new HttpRequestMessage(new HttpMethod("POST"), "https://quickchart.io/wordcloud");
+        // request.Content = new StringContent(Regex.Replace(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"), "(?:\\r\\n|\\n|\\r)", string.Empty));
+        // request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("image/svg+xml");
+        // var response = await httpClient.SendAsync(request);
+        // return response;
     }
 
     public List<string> StopWordsFilter()
     {
         var stop_words = new List<string>
             { "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your",
-                "yours", "yourself","we'll",
+                "yours", "yourself","we’ll","it’s",
                 "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
                 "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that",
-                "these",
+                "these","doesn't", "all","it's",
                 "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do",
                 "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while",
                 "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before",
@@ -113,7 +126,9 @@ public class HttpServices
                 "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "'", "nh", "we'll", "didn't", "they'll",
                 "the","haven't", "you've", "they've", "we've", "i've", "you'll", "they'll", "we'll", "i'll", "you're",
                 "they're", "we're", "i'm", "you've", "they've", "we've","if", "https", "http", "get", "please","come", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "'", "nh", "we'll", "didn't", "they'll", "the", "haven't", "you've", "they've", "we've", "i've", "you'll", "they'll", "we'll", "i'll", "you're", "they're", "we're", "i'm", "you've", "they've", "we've", "if", "https", "http", "get", "please", "come", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "'", "nh", "we'll", "didn't", "they'll", "the", "haven't", "you've", "they've", "we've", "i've", "you'll", "they'll", "we'll", "i'll", "you're", "they're", "we're", "i'm", "you've", "they've", "we've", "if", "https", "http", "get", "please", "come", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can",
-                
+                "we'll", "didn't", "they'll",
+                "the","haven’t", "you’ve", "they’ve", "we’ve", "i’ve", "you’ll", "they’ll", "we’ll", "i’ll", "you’re",
+                "they’re", "we’re", "i’m", "you’ve", "they’ve", "we’ve", "doesn’t","https","t","co"
             };
 
         return stop_words;
