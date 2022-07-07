@@ -1,7 +1,26 @@
-﻿namespace Twitter_Sentiment_API.Methods;
+﻿using System.Text.RegularExpressions;
+
+namespace Twitter_Sentiment_API.Methods;
 
 public static class CleanTheText
 {
+    public static string Clean(string text)
+    {
+        var words = text.ToLower().Split();
+        var stopWordsList = new List<string>();
+        stopWordsList = StopWordsFilter();
+        var newWords = words.Where(word => !stopWordsList.Contains(word));
+        var newText = string.Join(" ", newWords).ToLower();
+        newText = Regex.Replace(newText, @"http[^\s]+", "");
+        newText = Regex.Replace(newText, @"the\s", "");
+        newText = Regex.Replace(newText, @"of\s", "");
+        newText = Regex.Replace(newText, @"to\s", "");
+        newText = Regex.Replace(newText, @"and\s", "");
+        newText = Regex.Replace(newText, @"or\s", "");
+        Console.WriteLine(newText);
+        return newText;
+    }
+
     public static List<string> StopWordsFilter()
     {
         var stopWords = new List<string>
@@ -22,9 +41,8 @@ public static class CleanTheText
                 "they're", "we're", "i'm", "you've", "they've", "we've","if", "https", "http", "get", "please","come", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "'", "nh", "we'll", "didn't", "they'll", "the", "haven't", "you've", "they've", "we've", "i've", "you'll", "they'll", "we'll", "i'll", "you're", "they're", "we're", "i'm", "you've", "they've", "we've", "if", "https", "http", "get", "please", "come", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now", "'", "nh", "we'll", "didn't", "they'll", "the", "haven't", "you've", "they've", "we've", "i've", "you'll", "they'll", "we'll", "i'll", "you're", "they're", "we're", "i'm", "you've", "they've", "we've", "if", "https", "http", "get", "please", "come", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can",
                 "we'll", "didn't", "they'll",
                 "the","haven’t", "you’ve", "they’ve", "we’ve", "i’ve", "you’ll", "they’ll", "we’ll", "i’ll", "you’re",
-                "they’re", "we’re", "i’m", "you’ve", "they’ve", "we’ve", "doesn’t","https","t","co"
+                "they’re", "we’re", "i’m", "you’ve", "they’ve", "we’ve", "doesn’t","https","t","co","go","nhs",
             };
-
         return stopWords;
     }
 }

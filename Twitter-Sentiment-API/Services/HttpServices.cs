@@ -83,18 +83,10 @@ public class HttpServices
         var result =  GetTweets(username, count);
         FileServices.SaveOnFile(result, username);
         var text =  File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt");
-        var words = text.ToLower().Split();
-        foreach (var word in words)
-        {
-            Console.WriteLine(word);
-        }
-        List<string> stopWordsList = new List<string>();
-        stopWordsList = CleanTheText.StopWordsFilter();
-        var newWords = words.Where(word => !stopWordsList.Contains(word));
-        text = string.Join(" ", newWords).ToLower();
-        Console.WriteLine(text);
+
+        var cleanedText = CleanTheText.Clean(text);
         var client = new HttpClient();
-        client.BaseAddress = new Uri($"https://quickchart.io/wordcloud?maxNumWords=50&&text={text}");
+        client.BaseAddress = new Uri($"https://quickchart.io/wordcloud?maxNumWords=50&&text={cleanedText}");
         var response =  await client.GetByteArrayAsync(client.BaseAddress);
         var file = new FileStream(@$"{Environment.CurrentDirectory}/Datasets/{username}.svg", FileMode.Create);
         file.Write(response, 0, response.Length);
@@ -108,8 +100,4 @@ public class HttpServices
         // var response = await httpClient.SendAsync(request);
         // return response;
     }
-
-    
-
-
 }
