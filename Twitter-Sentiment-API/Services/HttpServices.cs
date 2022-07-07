@@ -83,7 +83,6 @@ public class HttpServices
         var result =  GetTweets(username, count);
         FileServices.SaveOnFile(result, username);
         var text =  File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt");
-
         var cleanedText = CleanTheText.Clean(text);
         var client = new HttpClient();
         client.BaseAddress = new Uri($"https://quickchart.io/wordcloud?maxNumWords=50&&text={cleanedText}");
