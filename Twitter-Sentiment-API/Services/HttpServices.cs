@@ -91,13 +91,6 @@ public class HttpServices
         file.Write(response, 0, response.Length);
         file.Close();
         return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
-
-        //  var httpClient = new HttpClient();
-        //  var request = new HttpRequestMessage(new HttpMethod("POST"), "https://quickchart.io/wordcloud");
-        // request.Content = new StringContent(Regex.Replace(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"), "(?:\\r\\n|\\n|\\r)", string.Empty));
-        // request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("image/svg+xml");
-        // var response = await httpClient.SendAsync(request);
-        // return response;
     }
 
     public string GetPercentage(string tweetSentiment)
