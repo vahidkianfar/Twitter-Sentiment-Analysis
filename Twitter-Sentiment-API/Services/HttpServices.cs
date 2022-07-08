@@ -99,4 +99,38 @@ public class HttpServices
         // var response = await httpClient.SendAsync(request);
         // return response;
     }
+
+    public string GetPercentage(string tweetSentiment)
+    {
+        double positive = 0;
+        double negative = 0;
+        double neutral = 0;
+        tweetSentiment = tweetSentiment.Replace("\"", "");
+        var sentiments = tweetSentiment.ToLower().Split(",").ToList();
+        
+        foreach (var sentiment in sentiments)
+        {
+            if (sentiment.Contains("positive"))
+            {
+                positive++;
+            }
+            else if (sentiment.Contains("negative"))
+            {
+                negative++;
+            }
+            else if (sentiment.Contains("neutral"))
+            {
+                neutral++;
+            }
+        }
+        
+        var total = positive + negative + neutral;
+        var positivePercentage = (positive / total!) * 100;
+        var negativePercentage = (negative / total) * 100;
+        var neutralPercentage = (neutral / total) * 100;
+        
+        return $"Positive: {positivePercentage:F} %\nNegative: {negativePercentage:F} %\nNeutral: {neutralPercentage:F} %";
+    }
+
+    
 }

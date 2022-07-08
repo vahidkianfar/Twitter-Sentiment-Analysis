@@ -34,12 +34,13 @@ public class TweetController : Controller
     }
     // GET: /twitter/1.1/TwitterSentimentAnalysisDeepAI/TechReturners?count=100
     [HttpGet("SentimentAnalysisDeepAI/{username}")]
-    public ActionResult<object> GetTweetsSentiment(string username, int count=10)
+    public ActionResult<string> GetTweetsSentiment(string username, int count=10)
     {
         try
         {
-            var tweets = _httpServices.GetSentimentDeepAI(username, count);
-            return tweets ;
+            var tweetSentiment = _httpServices.GetSentimentDeepAI(username, count);
+            var finalPercentage = _httpServices.GetPercentage(tweetSentiment);
+            return finalPercentage ;
         }
         catch (Exception e)
         {
