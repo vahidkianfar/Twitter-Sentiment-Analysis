@@ -45,7 +45,7 @@ public class TweetController : Controller
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return BadRequest("Connection Error");
+            return BadRequest(e.Message);
         }
     }
     
@@ -60,12 +60,12 @@ public class TweetController : Controller
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return BadRequest("Under Construction!");
+            return BadRequest(e.Message);
         }
     }
     
     [HttpGet("SentimentAnalysisWordCloud/{username}")]
-    [Consumes("image/svg+xml" , "image/png","application/json")]
+    //[Consumes("image/svg+xml")]
     public Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
         return _httpServices.SentimentAnalysisWordCloud(username, numberOfTweets, retweets, replies);
@@ -83,7 +83,7 @@ public class TweetController : Controller
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return BadRequest("Under Construction!");
+            return BadRequest(e.Message);
         }
     }
 }

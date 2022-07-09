@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
@@ -58,8 +59,10 @@ public class HttpServices
             api.callStandardApi("sentiment-analysis",
                 new
                 {
-                    text = File.OpenRead(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt")
+                    text = File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt")
+                    
                 });
+        Console.WriteLine(resp);
         //_context.SaveChanges();
         return api.objectAsJsonString(resp.output);
     }
@@ -91,8 +94,10 @@ public class HttpServices
         var response =  await client.GetByteArrayAsync(client.BaseAddress);
         var file = new FileStream(@$"{Environment.CurrentDirectory}/Datasets/{username}.svg", FileMode.Create);
         file.Write(response, 0, response.Length);
-        file.Close();
-        return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
+        //file.Close();
+        return file.ReadAsync(  response, 0, response.Length);
+        // return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
+
     }
 
     public string GetPercentage(string tweetSentiment)
