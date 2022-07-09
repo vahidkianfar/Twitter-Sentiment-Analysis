@@ -94,9 +94,9 @@ public class HttpServices
         var response =  await client.GetByteArrayAsync(client.BaseAddress);
         var file = new FileStream(@$"{Environment.CurrentDirectory}/Datasets/{username}.svg", FileMode.Create);
         file.Write(response, 0, response.Length);
-        //file.Close();
-        return file.ReadAsync(  response, 0, response.Length);
-        // return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
+        file.Close();
+        //return file.ReadAsync(  response, 0, response.Length);
+        return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
 
     }
 

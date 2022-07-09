@@ -65,7 +65,7 @@ public class TweetController : Controller
     }
     
     [HttpGet("SentimentAnalysisWordCloud/{username}")]
-    //[Consumes("image/svg+xml")]
+    [Consumes("image/svg+xml")]
     public Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
         return _httpServices.SentimentAnalysisWordCloud(username, numberOfTweets, retweets, replies);
