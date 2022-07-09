@@ -7,12 +7,15 @@ using System.Text.RegularExpressions;
 using DeepAI;
 using Twitter_Sentiment_API.Methods;
 using Twitter_Sentiment_API.Models;
+using System.Net.Http;
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Twitter_Sentiment_API.Services;
 
 public class HttpServices
 {
-    private static HttpClient EstablishConnection()
+    public static HttpClient EstablishConnection()
     {
         var client = new HttpClient();
         client.DefaultRequestHeaders.Authorization =
@@ -20,16 +23,17 @@ public class HttpServices
 
         return client;
     }
+    
     public Tweets[]? GetTweets(string twitterUsername, int numberOfTweets)
     {
         var client = EstablishConnection();
-        var url = $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts=0&&exclude_replies=1";
+        var url = $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts=0&&exclude_replies=0";
         var response =  client.GetAsync(url);
         var tweetJson = response.Result.Content.ReadAsStream();
         var alltweets = JsonSerializer.Deserialize<Tweets[]?>(tweetJson);
         return alltweets;
     }
-    public async Task<Tweets[]?> GetTweetsAsync(string twitterUsername, int numberOfTweets)
+    public async Task<(HttpResponseMessage, Tweets[]?)> GetTweetsAsync(string twitterUsername, int numberOfTweets)
     {
         var client = EstablishConnection();
 
@@ -39,14 +43,15 @@ public class HttpServices
         //     $"https://api.twitter.com/2/users/by/username/:{twitterUsername}/tweets?max_results={numberOfTweets}&tweet_mode=extended&exclude=retweets,replies";
 
         var url =
-            $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts=0&&exclude_replies=1";
+            $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts=0&&exclude_replies=0";
         var response = await client.GetAsync(url);
 
         var tweetJson = await response.Content.ReadAsStringAsync();
 
         var alltweets = JsonSerializer.Deserialize<Tweets[]>(tweetJson);
-        return alltweets;
+        return (response,alltweets);
     }
+    
     public string GetSentimentDeepAI(string username, int count)
     {
         var result = GetTweets(username, count);
@@ -61,6 +66,7 @@ public class HttpServices
         //_context.SaveChanges();
         return api.objectAsJsonString(resp.output);
     }
+    
     public string GetSentimentDeepAIForText(string inputText)
     {
         var api = new DeepAI_API(apiKey: "e714104f-5b1a-4333-8dec-c0af37dcd621");
@@ -76,11 +82,18 @@ public class HttpServices
     public string GetCustomTextSentimentFromOurCustomModel(string inputText)
     {
         return CreateMLModel.Program.Start(inputText);
+
     }
-    
-    public async Task<object> SentimentAnalysisWordCloud(string username, int count)
+
+    public async Task<(HttpResponseMessage, string)> SentimentAnalysisWordCloud(string username, int count)
     {
-        var result =  GetTweets(username, count);
+        // var result =  GetTweets(username, count);
+        Tweets[]? result;
+        HttpResponseMessage httpresponse;
+
+
+        (httpresponse, result) = await GetTweetsAsync(username, count);
+       
         FileServices.SaveOnFile(result, username);
         var text =  File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt");
         var cleanedText = CleanTheText.Clean(text);
@@ -90,7 +103,7 @@ public class HttpServices
         var file = new FileStream(@$"{Environment.CurrentDirectory}/Datasets/{username}.svg", FileMode.Create);
         file.Write(response, 0, response.Length);
         file.Close();
-        return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
+        return (httpresponse, @$"{Environment.CurrentDirectory}/Datasets/{username}.svg");
 
         //  var httpClient = new HttpClient();
         //  var request = new HttpRequestMessage(new HttpMethod("POST"), "https://quickchart.io/wordcloud");
@@ -99,4 +112,5 @@ public class HttpServices
         // var response = await httpClient.SendAsync(request);
         // return response;
     }
+
 }

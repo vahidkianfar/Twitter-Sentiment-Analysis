@@ -1,8 +1,11 @@
+using DeepAI;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 using System.Net;
 using System.Net.Http.Headers;
-using FluentAssertions;
-using NUnit.Framework;
 using Twitter_Sentiment_API.Controllers;
+using Twitter_Sentiment_API.Models;
 using Twitter_Sentiment_API.Services;
 
 namespace TestProject1;
@@ -10,16 +13,16 @@ namespace TestProject1;
 public class Tests
 {
     private TweetController _controller;
-    private HttpServices _client;
+    private HttpServices? _client;
 
     [SetUp]
     public void Setup()
     {
-        _controller = new TweetController(_client);
+        _controller = new TweetController(_client!);
     }
 
     [Test]
-    public async Task ResponseCode_Should_Be_200_For_Authorization()
+    public async Task TwitterAccessAuthorizationAndReturnOfRequestedTweets()
     {
 
         var client = new HttpClient();
@@ -36,6 +39,67 @@ public class Tests
         var response = await client.GetAsync(url);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task TwitterAsyncRequestReturnsRequestedTweets()
+    {
+        var result = await _controller.GetTweetsAsync("CarlFis96135566", 1, 1);
+
+        result.Should().BeOfType(typeof(ActionResult<object>));
+       
+    }
+
+    [Test]
+    public void GetTweetsSentimentReturnsTweetSentiments()
+    {
+        string username = "testCarlFis96135566";
+
+        var api = new DeepAI_API(apiKey: "e714104f-5b1a-4333-8dec-c0af37dcd621");
+        var resp =
+            api.callStandardApi("sentiment-analysis",
+                new
+                {
+                    text = File.OpenRead(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt")
+                });
+
+        ActionResult<object> result1 = api.objectAsJsonString(resp.output);
+
+        result1.Should().BeOfType(typeof(ActionResult<object>));
+
+        var result2 = _controller.GetTweetsSentiment("CarlFis96135566", 3);
+
+        result2.Should().BeOfType(typeof(ActionResult<object>));
+    }
+
+    [Test]
+    public void GetCustomTextSentimentDeepAIReturnsASentimentFromASingleText()
+    {
+        // Arrange
+
+        string inputstring = "I love you";
+        ActionResult<object> test_sentiment = "Positive";
+        ActionResult<object> result;
+        ActionResult<object> result1 = "Positive";
+
+
+        result = _controller.GetCustomTextSentimentDeepAI(inputstring);
+
+        result.Should().BeOfType(typeof(ActionResult<object>)); //  Works just fine
+    }
+
+    [Test]
+    public void GetCustomTextSentimentFromOurCustomModelReturnssentiment()
+    {
+        string inputstring = "I love you";
+        ActionResult<string> teststring = "positive";
+
+        Console.WriteLine(inputstring);
+        Console.WriteLine(teststring);
+
+        var sentiment = _controller.GetCustomTextSentimentFromOurCustomModel(inputstring);
+
+        sentiment.Should().BeOfType(typeof(ActionResult<object>)); //  Works just fine
 
     }
 }
