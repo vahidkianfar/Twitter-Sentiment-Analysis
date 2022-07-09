@@ -17,6 +17,8 @@ public static class CleanTheText
         newText = Regex.Replace(newText, @"to\s", "");
         newText = Regex.Replace(newText, @"and\s", "");
         newText = Regex.Replace(newText, @"or\s", "");
+        newText = Regex.Replace(newText, @"rt\s", "");
+        newText = Regex.Replace(newText, @"@\s", "");
         Console.WriteLine(newText);
         return newText;
     }

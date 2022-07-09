@@ -19,11 +19,11 @@ public class TweetController : Controller
     
     // GET: /twitter/1.1/username/TechReturners?count=100
     [HttpGet("tweets/{username}")]
-    public ActionResult<Tweets[]?> GetTweets(string username, int count=10)
+    public ActionResult<Tweets[]?> GetTweets(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
         try
         {
-            var tweets = _httpServices.GetTweets(username, count);
+            var tweets = _httpServices.GetTweets(username, numberOfTweets, retweets, replies);
             return tweets ;
         }
         catch (Exception e)
@@ -34,11 +34,11 @@ public class TweetController : Controller
     }
     // GET: /twitter/1.1/TwitterSentimentAnalysisDeepAI/TechReturners?count=100
     [HttpGet("SentimentAnalysisDeepAI/{username}")]
-    public ActionResult<string> GetTweetsSentiment(string username, int count=10)
+    public ActionResult<string> GetTweetsSentiment(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
         try
         {
-            var tweetSentiment = _httpServices.GetSentimentDeepAI(username, count);
+            var tweetSentiment = _httpServices.GetSentimentDeepAI(username, numberOfTweets, retweets, replies );
             var finalPercentage = _httpServices.GetPercentage(tweetSentiment);
             return finalPercentage ;
         }
@@ -66,9 +66,9 @@ public class TweetController : Controller
     
     [HttpGet("SentimentAnalysisWordCloud/{username}")]
     [Consumes("image/svg+xml" , "image/png","application/json")]
-    public Task<object> SentimentAnalysisWordCloud(string username, int count=10)
+    public Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
-        return _httpServices.SentimentAnalysisWordCloud(username, count);
+        return _httpServices.SentimentAnalysisWordCloud(username, numberOfTweets, retweets, replies);
        // return System.IO.File.Open($"{path}", FileMode.Open);
     }
     

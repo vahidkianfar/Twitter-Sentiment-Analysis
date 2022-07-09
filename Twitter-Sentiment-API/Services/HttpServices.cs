@@ -20,10 +20,12 @@ public class HttpServices
 
         return client;
     }
-    public Tweets[]? GetTweets(string twitterUsername, int numberOfTweets)
+    public Tweets[]? GetTweets(string twitterUsername, int numberOfTweets, string retweets, string replies)
     {
         var client = EstablishConnection();
-        var url = $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts=0&&exclude_replies=1";
+        var rtsValue = retweets == "true" ? 1 : 0;
+        var repliesValue = replies == "true" ? 0 : 1;
+        var url = $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts={rtsValue}&&exclude_replies={repliesValue}";
         var response =  client.GetAsync(url);
         var tweetJson = response.Result.Content.ReadAsStream();
         var alltweets = JsonSerializer.Deserialize<Tweets[]?>(tweetJson);
@@ -47,9 +49,9 @@ public class HttpServices
         var alltweets = JsonSerializer.Deserialize<Tweets[]>(tweetJson);
         return alltweets;
     }
-    public string GetSentimentDeepAI(string username, int count)
+    public string GetSentimentDeepAI(string username, int numberOfTweets, string retweets, string replies)
     {
-        var result = GetTweets(username, count);
+        var result = GetTweets(username, numberOfTweets,retweets, replies);
         FileServices.SaveOnFile(result, username);
         var api = new DeepAI_API(apiKey: "e714104f-5b1a-4333-8dec-c0af37dcd621");
         var resp =
@@ -78,9 +80,9 @@ public class HttpServices
         return CreateMLModel.Program.Start(inputText);
     }
     
-    public async Task<object> SentimentAnalysisWordCloud(string username, int count)
+    public async Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets, string retweets, string replies)
     {
-        var result =  GetTweets(username, count);
+        var result =  GetTweets(username, numberOfTweets, retweets, replies);
         FileServices.SaveOnFile(result, username);
         var text =  File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt");
         var cleanedText = CleanTheText.Clean(text);
