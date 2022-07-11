@@ -1,4 +1,6 @@
+using Twitter_Sentiment_API.Models;
 using Twitter_Sentiment_API.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +12,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<HttpServices>();
 builder.Services.AddHealthChecks();
+if (builder.Environment.EnvironmentName == "Production")
+{
+    builder.Services.AddDbContext<TweetContext>(option =>
+        option.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlTwitterAPI")));
+    
+}
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

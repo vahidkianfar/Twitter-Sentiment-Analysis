@@ -10,4 +10,10 @@ public static class FileServices
         saveToText.AddRange(tweets!.Select(x => x.Tweet)!);
         File.WriteAllLines(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt", saveToText);
     }
+    public static void SaveOnFileForTest(Tweets[]? tweets, string username)
+    {
+        var saveToText = new List<string>();
+        saveToText.AddRange(tweets!.Select(x => x.Tweet)!);
+        File.WriteAllLines(@$"{Environment.CurrentDirectory}/{username}.txt", saveToText);
+    }
 }

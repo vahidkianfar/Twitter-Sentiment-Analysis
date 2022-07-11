@@ -35,41 +35,41 @@ public class Tests
         var twitterUsername = "techreturners";
         var numberOfTweets = 3;
         var url =
-            $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets + 2}&tweet_mode=extended&include_rts=0&&exclude_replies=1";
+            $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended";
         var response = await client.GetAsync(url);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Test]
-    public async Task TwitterAsyncRequestReturnsRequestedTweets()
+    public void TwitterAsyncRequestReturnsRequestedTweets()
     {
-        var result = await _controller.GetTweetsAsync("CarlFis96135566", 1, 1);
-
-        result.Should().BeOfType(typeof(ActionResult<object>));
-       
+        var result =  _controller.GetTweets("CarlFis96135566", 1);
+        result.Should().BeOfType(typeof(ActionResult<Tweets[]>));
     }
 
     [Test]
     public void GetTweetsSentimentReturnsTweetSentiments()
     {
-        string username = "testCarlFis96135566";
-
+        string username = "CarlFis96135566";
+        var httpServices = new HttpServices();
+        var result = httpServices.GetTweets(username, 3, "true", "true");
+        FileServices.SaveOnFileForTest(result, username);
         var api = new DeepAI_API(apiKey: "e714104f-5b1a-4333-8dec-c0af37dcd621");
         var resp =
             api.callStandardApi("sentiment-analysis",
                 new
                 {
-                    text = File.OpenRead(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt")
+                    text = File.ReadAllText(@$"{Environment.CurrentDirectory}/{username}.txt")
                 });
 
-        ActionResult<object> result1 = api.objectAsJsonString(resp.output);
+        var result1 = api.objectAsJsonString(resp.output);
 
-        result1.Should().BeOfType(typeof(ActionResult<object>));
+        result1.Should().BeOfType(typeof(string));
 
         var result2 = _controller.GetTweetsSentiment("CarlFis96135566", 3);
-
-        result2.Should().BeOfType(typeof(ActionResult<object>));
+        
+        result2.Should().BeOfType(typeof(ActionResult<string>));
     }
 
     [Test]
@@ -84,7 +84,6 @@ public class Tests
 
 
         result = _controller.GetCustomTextSentimentDeepAI(inputstring);
-
         result.Should().BeOfType(typeof(ActionResult<object>)); //  Works just fine
     }
 
@@ -96,10 +95,7 @@ public class Tests
 
         Console.WriteLine(inputstring);
         Console.WriteLine(teststring);
-
         var sentiment = _controller.GetCustomTextSentimentFromOurCustomModel(inputstring);
-
         sentiment.Should().BeOfType(typeof(ActionResult<object>)); //  Works just fine
-
     }
 }

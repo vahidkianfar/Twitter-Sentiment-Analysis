@@ -9,5 +9,13 @@ public class Tweets
     
     // [JsonPropertyName("screen_name")]
     // public int Username { get; set; }
+    
+    // [JsonPropertyName("created_at")]
+    // public string? Date { get; set; }
+    
+    // [JsonPropertyName("location")]
+    // public string? Location { get; set; }
+    
+    
 
 }
