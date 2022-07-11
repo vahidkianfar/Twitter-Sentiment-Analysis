@@ -2,7 +2,8 @@
 
 ## Description:
 This Project is about Retrieve tweets and doing Sentiment Analysis on twitter, You can put a username and set the number of tweets then get the tweets and results of the Analysis.
-For the purpose of analysis we used two models which you have access to both of them from various endpoints:
+
+For the purpose of analysis we used two models, you have access to both of them from various endpoints:
 
 1. Free Sentiment Analysis API (DeepAI)
 2. Our Machine Learning Model
