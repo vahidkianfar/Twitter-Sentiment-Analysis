@@ -45,10 +45,28 @@ class SentimentPercentages
   +GetPercentageForBatchInput(tweetSentiment: List<string>): string
 }
 
+class SentimentAnalysis
+{
+  +SentimentText: string
+  +Sentiment: boolean
+}
+
+class MLModel
+{
+    + LoadData(mlContext: MLContext): TrainTestData
+    + BuildAndTrainModel(mlContext: MLContext, splitTrainSet: IDataView): ITransformer
+    + Evaluate(mlContext: MLContext, model: ITransformer, splitTestSet: IDataView): string
+    + ResultsFromModel(mlContext: MLContext, model: ITransformer,  inputText: string): string
+    + StartForBatchInput(inputText: string): List<string>
+}
+
 HttpServices <-> TweetController
 HttpServices -> Tweets
 HttpServices -> FileServices
 HttpServices -> CleanTheText
 HttpServices -> SentimentPercentages
+HttpServices -> SentimentAnalysis
+HttpServices -> MLModel
+
 
 @enduml
