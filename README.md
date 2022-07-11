@@ -32,4 +32,9 @@ This Project Contains Different End-points and Query Params:
 |  GET   | /twitter/1.1/tweets/OurCustomModelForBatchInput/username   |  Returns the Overall Sentiment Analysis of tweets from our ML model |
 
 
+## Query Params
 
+Twitter API v1.1 provided us some options about number of tweets and exclude/include Retweets and Replies, by default when you request for tweets it will include the retweets and replies but you can easily change the parameters.
+
+Example: https://localhost:7179/twitter/1.1/OurCustomModelForBatchInput/NHSEngland?numberOfTweets=200&retweets=true&replies=true
+if you don't want to retrieve retweets and replies you can easily change them into "false" and you can change the "numberOfTweets" too, by default the number of tweets is 10.
