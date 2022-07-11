@@ -16,7 +16,7 @@ For the purpose of analysis we used two models which you have access to both of 
 
 This Project Contains Different End-points and Query Params:
 
-| Action | Endpoint                                                                       Result
+| Action |                         Endpoint                                                         Result
 | ------ | :---------------------------------------------------------:| -------------------------------------------------------------------:|
 | 'GET'  | /twitter/1.1/tweets/username                               |  Returns the requested number of tweets                             |
 | 'GET'  | /twitter/1.1/tweets/SentimentAnalysisDeepAI/username       |  Returns the Overall Sentiment Analysis of tweets from DeepAI model |
@@ -24,3 +24,10 @@ This Project Contains Different End-points and Query Params:
 | 'GET'  | /twitter/1.1/tweets/SentimentAnalysisDeepAICustomText/text |  Check the Sentiment of given Text from DeepAI model                |
 | 'GET'  | /twitter/1.1/tweets/OurCustomModel/text                    |  Check the Sentiment of given text from Our ML Model                | 
 | 'GET'  | /twitter/1.1/tweets/OurCustomModelForBatchInput/username   |  Returns the Overall Sentiment Analysis of tweets from our ML model |
+
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
