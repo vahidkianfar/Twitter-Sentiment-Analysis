@@ -26,8 +26,8 @@ This Project Contains Different End-points and Query Params:
 | 'GET'  | /twitter/1.1/tweets/OurCustomModelForBatchInput/username   |  Returns the Overall Sentiment Analysis of tweets from our ML model |
 
 
-| Tables        | Are           | Cool  |
+| Action        | Endpoint           | Result  |
 | ------------- |:-------------| :-----:|
 | 'GET'      | /twitter/1.1/tweets/username | Returns the requested number of tweets |
 | 'GET'      | /twitter/1.1/tweets/SentimentAnalysisDeepAI/username      |   Returns the Overall Sentiment Analysis of tweets from DeepAI model |
-| 'GET' | /twitter/1.1/tweets/SentimentAnalysisWordCloud/username      |    Returns the WordCloud of the tweets |
+| 'GET'      | /twitter/1.1/tweets/SentimentAnalysisWordCloud/username      |    Returns the WordCloud of the tweets |
