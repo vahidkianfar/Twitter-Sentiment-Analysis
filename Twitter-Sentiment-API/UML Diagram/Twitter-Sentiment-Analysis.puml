@@ -39,11 +39,16 @@ class CleanTheText
   -StopWordsFilter(): List<string>
 }
 
+class SentimentPercentages
+{
+  +GetPercentage(tweetSentiment: string): string
+  +GetPercentageForBatchInput(tweetSentiment: List<string>): string
+}
+
 HttpServices <-> TweetController
 HttpServices -> Tweets
 HttpServices -> FileServices
 HttpServices -> CleanTheText
-
-
+HttpServices -> SentimentPercentages
 
 @enduml

@@ -56,9 +56,7 @@ public class HttpServices
                     text = File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt")
 
                 });
-        Console.WriteLine(resp);
-        //_context.SaveChanges();
-        return api.objectAsJsonString(resp.output);
+        return SentimentPercentages.GetPercentage(api.objectAsJsonString(resp.output));
     }
 
     public string GetSentimentDeepAIForText(string inputText)
@@ -69,7 +67,6 @@ public class HttpServices
         {
             text = inputText,
         });
-        //_context.SaveChanges();
         return api.objectAsJsonString(resp.output);
     }
 
@@ -82,7 +79,8 @@ public class HttpServices
     {
         var result = GetTweets(username, numberOfTweets, retweets, replies);
         FileServices.SaveOnFile(result, username);
-        return CreateMLModel.Program.Start(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"));
+        var sentimentResults= CreateMLModel.Program.StartForBatchInput(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"));
+        return SentimentPercentages.GetPercentageForBatchInput(sentimentResults);
     }
 
     public async Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets, string retweets,
@@ -99,42 +97,9 @@ public class HttpServices
         var file = new FileStream(@$"{Environment.CurrentDirectory}/Datasets/{username}.svg", FileMode.Create);
         file.Write(response, 0, response.Length);
         file.Close();
-
-        //return file.ReadAsync(  response, 0, response.Length);
         return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
     }
 
-    public string GetPercentage(string tweetSentiment)
-    {
-        double positive = 0;
-        double negative = 0;
-        double neutral = 0;
-        tweetSentiment = tweetSentiment.Replace("\"", "");
-        var sentiments = tweetSentiment.ToLower().Split(",").ToList();
-
-        foreach (var sentiment in sentiments)
-        {
-            if (sentiment.Contains("positive"))
-            {
-                positive++;
-            }
-            else if (sentiment.Contains("negative"))
-            {
-                negative++;
-            }
-            else if (sentiment.Contains("neutral"))
-            {
-                neutral++;
-            }
-        }
-
-        var total = positive + negative + neutral;
-        var positivePercentage = (positive / total!) * 100;
-        var negativePercentage = (negative / total) * 100;
-        var neutralPercentage = (neutral / total) * 100;
-
-        return
-            $"Positive: {positivePercentage:F} %\nNegative: {negativePercentage:F} %\nNeutral: {neutralPercentage:F} %";
-    }
-
+    
+    
 }

@@ -4,6 +4,7 @@ using Twitter_Sentiment_API.Models;
 using Twitter_Sentiment_API.Services;
 using System.Net.Http;
 using System.Net;
+using Twitter_Sentiment_API.Methods;
 
 namespace Twitter_Sentiment_API.Controllers;
 
@@ -25,8 +26,7 @@ public class TweetController : Controller
     {
         try
         {
-            var tweets = _httpServices.GetTweets(username, numberOfTweets, retweets, replies);
-            return tweets ;
+            return _httpServices.GetTweets(username, numberOfTweets, retweets, replies);
         }
         catch (Exception e)
         {
@@ -41,32 +41,26 @@ public class TweetController : Controller
     {
         try
         {
-            var tweetSentiment = _httpServices.GetSentimentDeepAI(username, numberOfTweets, retweets, replies );
-            var finalPercentage = _httpServices.GetPercentage(tweetSentiment);
-            return finalPercentage ;
-
+            return _httpServices.GetSentimentDeepAI(username, numberOfTweets, retweets, replies );
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             return BadRequest(e.Message);
-
         }
     }
     
-    [HttpGet("SentimentAnalysisDeepAIcustomText/{text}")]
+    [HttpGet("SentimentAnalysisDeepAICustomText/{text}")]
     public ActionResult<object> GetCustomTextSentimentDeepAI(string text)
     {
         try
         {
-            var sentiment = _httpServices.GetSentimentDeepAIForText(text);
-            return sentiment;
+            return _httpServices.GetSentimentDeepAIForText(text);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             return BadRequest(e.Message);
-
         }
     }
     
@@ -75,7 +69,6 @@ public class TweetController : Controller
     public Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
         return _httpServices.SentimentAnalysisWordCloud(username, numberOfTweets, retweets, replies);
-       // return System.IO.File.Open($"{path}", FileMode.Open);
     }
 
     [HttpGet("OurCustomModel/{text}")]
@@ -83,8 +76,7 @@ public class TweetController : Controller
     {
         try
         {
-            var sentiment = _httpServices.GetCustomTextSentimentFromOurCustomModel(text);
-            return sentiment ;
+            return _httpServices.GetCustomTextSentimentFromOurCustomModel(text);
         }
         catch (Exception e)
         {
@@ -97,8 +89,7 @@ public class TweetController : Controller
     {
         try
         {
-            var sentiment = _httpServices.GetCustomTextSentimentFromOurCustomModelForBatchInput( username,  numberOfTweets=10,  retweets="true",  replies="true");
-            return sentiment ;
+            return _httpServices.GetCustomTextSentimentFromOurCustomModelForBatchInput( username,  numberOfTweets=10,  retweets="true",  replies="true");
         }
         catch (Exception e)
         {
@@ -106,5 +97,4 @@ public class TweetController : Controller
             return BadRequest(e.Message);
         }
     }
-    
 }

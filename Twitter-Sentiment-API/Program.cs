@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.MapHealthChecks("/twitter/1.1/healthz");
 app.MapControllers();
 
 app.Run();
