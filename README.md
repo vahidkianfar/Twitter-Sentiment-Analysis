@@ -47,7 +47,8 @@ After getting the Authorization from twitter with Bearer Token you should send y
 
 https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts={rtsValue}&&exclude_replies={repliesValue}"
 
-1. Screen Name: Basically is Twitter Username.
-3. Tweet Mode = Extended: After 2016 twitter change the maximum of tweets from 140 characters to 280 characters, if you remove this Query Param you will get the truncated tweets not the Full one.
+1. Screen Name: Twitter Username.
+2. Count: Number of tweets (for the twitter's free API the maximum number of tweets that you can request is 200)
+3. Tweet Mode = Extended: since 2016 twitter has changed the maximum of tweet's characters from 140 to 280 characters, if you remove this Query Param you will get the truncated tweets not the Full one.
 4. Include_RTS: You can exclude/include Retweets.
 5. Exclude_Replies: You can exclude/include Replies.
