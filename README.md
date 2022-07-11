@@ -9,11 +9,11 @@ For the purpose of analysis we used two models which you have access to both of 
 
 ## Features:
 1. Retrieve Tweets (maximum of 200 tweets from given user)
-2. Get the Overall Sentiments of the tweets:
+2. Get the Overall Sentiments of the tweets: (user: NHSEngland)
 
   ![](https://github.com/vahidkianfar/Twitter-Sentiment-Analysis/blob/master/Twitter-Sentiment-API/image/NHSEngland-SentimentAnalysis.png)
 
-3. Get the WordCloud of the most frequent words
+3. Get the WordCloud of the most frequent words: (user: NHSEngland)
 
   ![](https://github.com/vahidkianfar/Twitter-Sentiment-Analysis/blob/master/Twitter-Sentiment-API/image/NHSEngland-WordCloud.png)
 
