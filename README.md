@@ -38,6 +38,7 @@ This Project Contains Different End-points and Query Params:
 Twitter API v1.1 provided us some options about number of tweets and exclude/include Retweets and Replies, by default when you request for tweets it will include the retweets and replies but you can easily change the parameters.
 
 Example: https://localhost:7179/twitter/1.1/OurCustomModelForBatchInput/NHSEngland?numberOfTweets=200&retweets=true&replies=true
+
 if you don't want to retrieve retweets and replies you can easily change them into "false" and you can change the "numberOfTweets" too, by default the number of tweets is 10.
 
 ### Note: if you exclude retweets and replies and request for 100 tweets, the twitter will get latest 100 tweets and then remove the retweets/replies, so that, tweets that will send to you is equal or less than the requested number of tweets.
@@ -47,6 +48,7 @@ if you don't want to retrieve retweets and replies you can easily change them in
 After getting the Authorization from twitter with Bearer Token you should send your get request to this URL:
 
 https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts={rtsValue}&&exclude_replies={repliesValue}"
+
 
 1. Screen Name: Twitter Username.
 2. Count: Number of tweets (for the twitter's free API the maximum number of tweets that you can request is 200)
