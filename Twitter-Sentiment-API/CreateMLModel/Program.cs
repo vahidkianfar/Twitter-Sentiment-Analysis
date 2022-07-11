@@ -40,9 +40,10 @@ namespace Twitter_Sentiment_API.CreateMLModel
 
         private static string ResultsFromModel(MLContext mlContext, ITransformer model, string inputText)
         {
-            PredictionEngine<SentimentAnalysis, SentimentPrediction> predictionFunction = mlContext.Model.CreatePredictionEngine<SentimentAnalysis, SentimentPrediction>(model);
-            SentimentAnalysis sampleStatement = new SentimentAnalysis
+            var predictionFunction = mlContext.Model.CreatePredictionEngine<SentimentAnalysis, SentimentPrediction>(model);
+            var sampleStatement = new SentimentAnalysis
             {
+                
                 SentimentText = inputText
             };
             var resultPrediction = predictionFunction.Predict(sampleStatement);

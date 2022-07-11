@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Tweets
+{
+  + Tweets [JsonPropertyName("full_text")] : string
+}
+
+class HttpServices
+{
+ - client: HttpClient 
+ + EstablishConnection()
+ + GetTweets(username: string, numberOfTweets: int, retweets: string, replies: string) : Tweets[]
+ + GetTweetsAsync(username: string, numberOfTweets: int, retweets: string, replies: string) : Task<List<Tweets>>
+ + GetTweetsSentimentDeepAI(username: string, numberOfTweets: int, retweets: string, replies: string): string
+ + GetSentimentDeepAIForText(inputText: string): string
+ + GetCustomTextSentimentFromOurCustomModel(inputText: string): string
+ + SentimentAnalysisWordCloud(username: string, numberOfTweets: int, retweets: string, replies: string) : Task<object>
+ + GetPercentage (tweetSentiment: string): string
+}
+
+class TweetController
+{
+- _httpClient: HttpServices
++ GetTweets(username: string, count: int): ActionResult<Tweets[]>
++ GetTweetsSentiment(username: string, count: int): ActionResult<object>
++ GetCustomTextSentiment(inputText: string): ActionResult<object> 
+}
+
+class FileServices
+{
+ + SaveOnFile(tweets: Tweets[]? , username: string ): void
+ + SaveOnFileForTest(tweets: Tweets[]? , username: string ): void
+}
+
+class CleanTheText
+{
+  +CleanTheText(string tweets): string
+  -StopWordsFilter(): List<string>
+}
+
+HttpServices <-> TweetController
+HttpServices -> Tweets
+HttpServices -> FileServices
+HttpServices -> CleanTheText
+
+
+
+@enduml

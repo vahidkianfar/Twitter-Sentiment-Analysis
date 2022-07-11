@@ -25,7 +25,7 @@ public static class CleanTheText
         return newText;
     }
 
-    public static List<string> StopWordsFilter()
+    private static List<string> StopWordsFilter()
     {
         var stopWords = new List<string>
             { "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your",
