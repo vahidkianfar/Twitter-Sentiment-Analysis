@@ -39,4 +39,4 @@ Twitter API v1.1 provided us some options about number of tweets and exclude/inc
 Example: https://localhost:7179/twitter/1.1/OurCustomModelForBatchInput/NHSEngland?numberOfTweets=200&retweets=true&replies=true
 if you don't want to retrieve retweets and replies you can easily change them into "false" and you can change the "numberOfTweets" too, by default the number of tweets is 10.
 
-### Note: if you exclude retweets and replies and request for 100 tweets, the twitter will get latest 100 tweets and then remove the retweets/replies, so that, tweets that will send to you is equalt or less than the requested number of tweets.
+### Note: if you exclude retweets and replies and request for 100 tweets, the twitter will get latest 100 tweets and then remove the retweets/replies, so that, tweets that will send to you is equal or less than the requested number of tweets.
