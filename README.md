@@ -40,3 +40,14 @@ Example: https://localhost:7179/twitter/1.1/OurCustomModelForBatchInput/NHSEngla
 if you don't want to retrieve retweets and replies you can easily change them into "false" and you can change the "numberOfTweets" too, by default the number of tweets is 10.
 
 ### Note: if you exclude retweets and replies and request for 100 tweets, the twitter will get latest 100 tweets and then remove the retweets/replies, so that, tweets that will send to you is equal or less than the requested number of tweets.
+
+## Request URL to Twitter API
+
+After getting the Authorization from twitter with Bearer Token you should send your get request to this URL:
+
+https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={twitterUsername}&count={numberOfTweets}&tweet_mode=extended&include_rts={rtsValue}&&exclude_replies={repliesValue}"
+
+1. Screen Name: Basically is Twitter Username.
+3. Tweet Mode = Extended: After 2016 twitter change the maximum of tweets from 140 characters to 280 characters, if you remove this Query Param you will get the truncated tweets not the Full one.
+4. Include_RTS: You can exclude/include Retweets.
+5. Exclude_Replies: You can exclude/include Replies.
