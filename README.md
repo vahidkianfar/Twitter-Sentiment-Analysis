@@ -28,6 +28,6 @@ This Project Contains Different End-points and Query Params:
 
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| 'GET'      | right-aligned | $1600 |
+| 'GET'      | centered      |   $12 |
+| 'GET' | are neat      |    $1 |
