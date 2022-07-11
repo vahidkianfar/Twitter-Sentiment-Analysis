@@ -59,7 +59,6 @@ public class TweetController : Controller
     {
         try
         {
-            // ActionResult<object> sentiment;
             var sentiment = _httpServices.GetSentimentDeepAIForText(text);
             return sentiment;
         }
