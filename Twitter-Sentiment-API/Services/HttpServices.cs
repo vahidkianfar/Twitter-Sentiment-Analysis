@@ -77,7 +77,13 @@ public class HttpServices
     {
         return CreateMLModel.Program.Start(inputText);
     }
-
+    
+    public string GetCustomTextSentimentFromOurCustomModelForBatchInput(string username, int numberOfTweets=10, string retweets="true", string replies="true")
+    {
+        var result = GetTweets(username, numberOfTweets, retweets, replies);
+        FileServices.SaveOnFile(result, username);
+        return CreateMLModel.Program.Start(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"));
+    }
 
     public async Task<object> SentimentAnalysisWordCloud(string username, int numberOfTweets, string retweets,
         string replies)

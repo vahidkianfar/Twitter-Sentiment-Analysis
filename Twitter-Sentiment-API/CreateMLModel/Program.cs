@@ -7,15 +7,17 @@ namespace Twitter_Sentiment_API.CreateMLModel
 {
     class Program
     {
-        private static readonly string DataPath = Path.Combine(Environment.CurrentDirectory,"CreateMLModel", "Dataset_labelled.txt");
+        private static readonly string DataPath =
+            Path.Combine(Environment.CurrentDirectory, "CreateMLModel", "Dataset_labelled.txt");
+
         public static string Start(string inputText)
         {
             var mlContext = new MLContext();
             var splitDataView = LoadData(mlContext);
             var model = BuildAndTrainModel(mlContext, splitDataView.TrainSet);
-            return ResultsFromModel(mlContext, model,inputText) + Evaluate(mlContext, model, splitDataView.TestSet);
+            return ResultsFromModel(mlContext, model, inputText) + Evaluate(mlContext, model, splitDataView.TestSet);
         }
-
+        
         private static TrainTestData LoadData(MLContext mlContext)
         {
             var dataView = mlContext.Data.LoadFromTextFile<SentimentAnalysis>(DataPath, hasHeader: false);
@@ -25,8 +27,10 @@ namespace Twitter_Sentiment_API.CreateMLModel
 
         private static ITransformer BuildAndTrainModel(MLContext mlContext, IDataView splitTrainSet)
         {
-            var estimator = mlContext.Transforms.Text.FeaturizeText(outputColumnName: "Features", inputColumnName: nameof(SentimentAnalysis.SentimentText))
-                .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: "Label", featureColumnName: "Features"));
+            var estimator = mlContext.Transforms.Text.FeaturizeText(outputColumnName: "Features",
+                    inputColumnName: nameof(SentimentAnalysis.SentimentText))
+                .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: "Label",
+                    featureColumnName: "Features"));
             var model = estimator.Fit(splitTrainSet);
             return model;
         }
@@ -40,16 +44,18 @@ namespace Twitter_Sentiment_API.CreateMLModel
 
         private static string ResultsFromModel(MLContext mlContext, ITransformer model, string inputText)
         {
-            var predictionFunction = mlContext.Model.CreatePredictionEngine<SentimentAnalysis, SentimentPrediction>(model);
+            var predictionFunction =
+                mlContext.Model.CreatePredictionEngine<SentimentAnalysis, SentimentPrediction>(model);
             var sampleStatement = new SentimentAnalysis
             {
-                
+
                 SentimentText = inputText
             };
             var resultPrediction = predictionFunction.Predict(sampleStatement);
             return
-               // $"Sentiment: {resultPrediction.SentimentText} | Prediction: {(Convert.ToBoolean(resultPrediction.Prediction) ? "Positive" : "Negative")} | Probability: {resultPrediction.Probability} ";
+                // $"Sentiment: {resultPrediction.SentimentText} | Prediction: {(Convert.ToBoolean(resultPrediction.Prediction) ? "Positive" : "Negative")} | Probability: {resultPrediction.Probability} ";
                 $"Prediction: {(Convert.ToBoolean(resultPrediction.Prediction) ? "Positive" : "Negative")} | Probability: {resultPrediction.Probability} ";
         }
+        
     }
 }

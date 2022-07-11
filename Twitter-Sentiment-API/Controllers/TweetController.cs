@@ -92,10 +92,19 @@ public class TweetController : Controller
             return BadRequest(e.Message);
         }
     }
-    public static ActionResult Result(HttpStatusCode statusCode, string reason) => new ContentResult
+    [HttpGet("OurCustomModelForBatchInput/{username}")]
+    public ActionResult<object> GetCustomTextSentimentFromOurCustomModelForBatchInput(string username, int numberOfTweets=10, string retweets="true", string replies="true")
     {
-        StatusCode = (int)statusCode,
-        Content = $"Status Code: {(int)statusCode} {statusCode}: {reason}",
-        ContentType = "text/plain",
-    };
+        try
+        {
+            var sentiment = _httpServices.GetCustomTextSentimentFromOurCustomModelForBatchInput( username,  numberOfTweets=10,  retweets="true",  replies="true");
+            return sentiment ;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+    
 }
