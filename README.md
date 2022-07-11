@@ -16,7 +16,7 @@ For the purpose of analysis we used two models which you have access to both of 
 
 This Project Contains Different End-points and Query Params:
 
-| Action |                         Endpoint                                                         Result
+| Action |                         Endpoint                           |                              Result                                 |
 | ------ | :---------------------------------------------------------:| -------------------------------------------------------------------:|
 | 'GET'  | /twitter/1.1/tweets/username                               |  Returns the requested number of tweets                             |
 | 'GET'  | /twitter/1.1/tweets/SentimentAnalysisDeepAI/username       |  Returns the Overall Sentiment Analysis of tweets from DeepAI model |
