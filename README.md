@@ -17,7 +17,7 @@ For the purpose of analysis we used two models which you have access to both of 
 This Project Contains Different End-points and Query Params:
 
 | Action |                         Endpoint                           |                              Result                                 |
-| ------ | :---------------------------------------------------------:| -------------------------------------------------------------------:|
+| ------ | :----------------------------------------------------------| :-------------------------------------------------------------------|
 | 'GET'  | /twitter/1.1/tweets/username                               |  Returns the requested number of tweets                             |
 | 'GET'  | /twitter/1.1/tweets/SentimentAnalysisDeepAI/username       |  Returns the Overall Sentiment Analysis of tweets from DeepAI model |
 | 'GET'  | /twitter/1.1/tweets/SentimentAnalysisWordCloud/username    |  Returns the WordCloud of the tweets                                |
@@ -26,11 +26,4 @@ This Project Contains Different End-points and Query Params:
 | 'GET'  | /twitter/1.1/tweets/OurCustomModelForBatchInput/username   |  Returns the Overall Sentiment Analysis of tweets from our ML model |
 
 
-| Action        | Endpoint           | Result  |
-| ------------- |:-------------| :-----|
-| 'GET'      | /username | Returns the requested number of tweets |
-| 'GET'      | /SentimentAnalysisDeepAI/username      |   Returns the Overall Sentiment Analysis of tweets from DeepAI model |
-| 'GET'      | /SentimentAnalysisWordCloud/username      |    Returns the WordCloud of the tweets |
-| 'GET'      | SentimentAnalysisDeepAICustomText/text    |    Check the Sentiment of given Text from DeepAI model |
-| 'GET'      | /OurCustomModel/text       |    Check the Sentiment of given text from Our ML Model |
-| 'GET'      | /OurCustomModelForBatchInput/username     |    Returns the Overall Sentiment Analysis of tweets from our ML model |
+
