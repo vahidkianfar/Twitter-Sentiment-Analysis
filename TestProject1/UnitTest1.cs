@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DeepAI;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace TestProject1;
 public class Tests
 {
     private TweetController _controller;
-    private HttpServices? _client;
+    private HttpServices _client;
 
     [SetUp]
     public void Setup()
@@ -44,8 +45,11 @@ public class Tests
     [Test]
     public void TwitterAsyncRequestReturnsRequestedTweets()
     {
-        var result =  _controller.GetTweets("CarlFis96135566", 1);
-        result.Should().BeOfType(typeof(ActionResult<Tweets[]>));
+        var httpServices = new HttpServices();
+        var tweet = httpServices.GetTweets("CarlFis96135566", 1, "true", "true");
+        var saveToText = new List<string>();
+        saveToText.AddRange(tweet!.Select(x => x.Tweet)!);
+        saveToText[0].Should().Be("test 3");
     }
 
     [Test]
@@ -81,10 +85,21 @@ public class Tests
         ActionResult<object> test_sentiment = "Positive";
         ActionResult<object> result;
         ActionResult<object> result1 = "Positive";
-
-
+        
         result = _controller.GetCustomTextSentimentDeepAI(inputstring);
         result.Should().BeOfType(typeof(ActionResult<object>)); //  Works just fine
+    }
+    
+    [Test]
+    public void GetCustomTextSentimentDeepAIReturnsASentimentFromASingleText1()
+    {
+
+            string inputstring = "I love you";
+            ActionResult<string>? result1 = "Positive"; 
+            Console.WriteLine(result1.Value);
+            var HttpServices = new HttpServices();
+            var result = HttpServices.GetSentimentDeepAIForText(inputstring);
+            result.Contains("Positive").Should().Be(true);   
     }
 
     [Test]

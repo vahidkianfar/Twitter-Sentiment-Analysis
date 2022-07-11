@@ -68,5 +68,9 @@ HttpServices -> SentimentPercentages
 HttpServices -> SentimentAnalysis
 HttpServices -> MLModel
 
+TweetController -> Tweets
+
+Tweets -> FileServices
+
 
 @enduml
