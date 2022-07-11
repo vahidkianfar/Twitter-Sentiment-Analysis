@@ -28,6 +28,6 @@ This Project Contains Different End-points and Query Params:
 
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
-| 'GET'      | right-aligned | $1600 |
-| 'GET'      | centered      |   $12 |
-| 'GET' | are neat      |    $1 |
+| 'GET'      | /username | Returns the requested number of tweets |
+| 'GET'      | /SentimentAnalysisDeepAI/username      |   Returns the Overall Sentiment Analysis of tweets from DeepAI model |
+| 'GET' | /SentimentAnalysisWordCloud/username      |    Returns the WordCloud of the tweets |
