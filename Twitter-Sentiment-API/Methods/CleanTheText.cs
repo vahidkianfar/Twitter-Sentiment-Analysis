@@ -22,6 +22,7 @@ public static class CleanTheText
         newText = Regex.Replace(newText, @"here", "");
         newText = Regex.Replace(newText, @"recent", "");
         newText = Regex.Replace(newText, @"ready", "");
+        newText = Regex.Replace(newText, @"\n", "");
         return newText;
     }
 
