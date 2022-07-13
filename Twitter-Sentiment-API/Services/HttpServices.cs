@@ -79,7 +79,7 @@ public class HttpServices
     {
         var result = GetTweets(username, numberOfTweets, retweets, replies);
         FileServices.SaveOnFile(result, username);
-        var sentimentResults= CreateMLModel.Program.StartForBatchInput(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"));
+        var sentimentResults = CreateMLModel.Program.StartForBatchInput(File.ReadAllText(@$"{Environment.CurrentDirectory}/Datasets/{username}.txt"));
         return SentimentPercentages.GetPercentageForBatchInput(sentimentResults);
     }
 
@@ -99,7 +99,4 @@ public class HttpServices
         file.Close();
         return @$"{Environment.CurrentDirectory}/Datasets/{username}.svg";
     }
-
-    
-    
 }
